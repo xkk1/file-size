@@ -7,7 +7,7 @@
 <https://xkk1.github.io/file-size/>
 
 `git clone https://github.com/xkk1/file-size.git`  
-打开 `file-size/web/index.html`
+打开 `file-size/index.html`
 
 ## Python
 

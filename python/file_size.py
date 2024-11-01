@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 """
-This file is part of file_size.
+This file is part of file-size.
 Copyright (C) 2024  xkk1
 
 This program is free software: you can redistribute it and/or modify
