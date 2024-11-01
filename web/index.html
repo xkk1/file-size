@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件大小</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="file_size.js"></script>
+</head>
+<body>
+    <header>
+        <h1>文件大小</h1>
+    </header>
+    <main>
+        <h2>转换工具</h2>
+        <form id="conversion-form" class="box">
+            <div>
+                <select id="input-prefix" name="input-prefix"></select>
+                转换为
+                <select id="output-prefix" name="output-prefix"></select>
+            </div>
+            <div>
+                <input type="number" name="input-size" id="input-size" placeholder="请输入文件大小" />
+                <span id="conversion-result">正在加载工具...</span>
+            </div>
+        </form>
+        <!-- <h2>上传查询</h2>
+        <div id="dropbox" class="box">
+            <p>或将文件拖到这里</p>
+        </div> -->
+    </main>
+</body>
+</html>

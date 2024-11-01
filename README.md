@@ -1,6 +1,13 @@
 # 文件大小
 
-查看文件大小的 Python 脚本
+查看文件大小，转换文件大小工具
+
+## Web
+
+<https://xkk1.github.io/file-size/>
+
+`git clone https://github.com/xkk1/file-size.git`  
+打开 `file-size/web/index.html`
 
 ## Python
 
