@@ -20,14 +20,31 @@
                 <select id="output-prefix" name="output-prefix"></select>
             </div>
             <div>
-                <input type="number" name="input-size" id="input-size" placeholder="请输入文件大小" />
+                <input type="number" name="input-size" id="input-size" placeholder="请输入文件大小" value="1024" />
                 <span id="conversion-result">正在加载工具...</span>
             </div>
         </form>
-        <!-- <h2>上传查询</h2>
-        <div id="dropbox" class="box">
+        <h2>上传查询</h2>
+        <div>
+            显示单位：
+            <select id="upload-prefix" name="upload-prefix"></select>
+            <!-- 清空 -->
+            <button id="clear-button" type="button">清空</button>
+        </div>
+        <form id="dropbox" class="box">
+            <!-- 上传多个文件 -->
+            <div>
+                <label for="file-input">上传多个文件</label>
+                <input type="file" name="file-input" id="file-input" multiple></input>
+            </div>
+            <!-- 上传目录 -->
+            <div>
+                <label for="directory-input">上传目录</label>
+                <input type="file" name="directory-input" id="directory-input" webkitdirectory></input>
+            </div>
             <p>或将文件拖到这里</p>
-        </div> -->
+            <div id="upload-result"></div>
+        </form>
     </main>
 </body>
 </html>

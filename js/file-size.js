@@ -54,6 +54,9 @@ for (let i = 0; i < metric_prefix_zh.length; i++) {
     all_prefix.push(`SI ${metric_prefix_zh[i]}比特`);
 }
 
+// 上传文件列表
+let fileList = [];
+
 /**
  * 文件大小词缀转换为字节
  * @param {string} prefix 词缀 "B" "kB" "KiB"
@@ -166,7 +169,7 @@ function initConversionTools() {
         option.textContent = prefix;
         inputPrefixSelectElement.appendChild(option);
     });
-    inputPrefixSelectElement.selectedIndex = 14;
+    // inputPrefixSelectElement.selectedIndex = 14;
     // 初始化输出词缀选择框
     const outPrefixSelectElement = document.getElementById('output-prefix');
     auto_prefix.concat(all_prefix).forEach(prefix => {
@@ -175,7 +178,7 @@ function initConversionTools() {
         option.textContent = prefix;
         outPrefixSelectElement.appendChild(option);
     });
-    outPrefixSelectElement.selectedIndex = 0;
+    // outPrefixSelectElement.selectedIndex = 0;
     // 监听输入框变化
     const inputSizeInputElement = document.getElementById('input-size');
     const conversionResultSpanElement = document.getElementById('conversion-result');
@@ -194,9 +197,39 @@ function initConversionTools() {
     inputSizeInputElement.addEventListener("input", updateConversionResult);
     inputPrefixSelectElement.addEventListener("change", updateConversionResult);
     outPrefixSelectElement.addEventListener("change", updateConversionResult);
-    inputSizeInputElement.value = "1000";
+    // inputSizeInputElement.value = "1000";
     updateConversionResult();
 
+}
+
+/**
+ * 更新显示文件列表
+ */
+function updateFileList() {
+    const uploadPrefixSelectElement = document.getElementById('upload-prefix');
+    let uploadResultElement = document.getElementById("upload-result");
+    uploadResultElement.innerHTML = "";
+    for (let i = fileList.length - 1; i >= 0; i--) {
+        const file = fileList[i];
+        console.log(file);
+        const fileSpanElement = document.createElement("span");
+        fileSpanElement.textContent = file.webkitRelativePath ? file.webkitRelativePath : file.name + " - " + byteToPrefix(file.size, uploadPrefixSelectElement.value);
+        const fileElement = document.createElement("div");
+        fileElement.appendChild(fileSpanElement);
+        uploadResultElement.appendChild(fileElement);
+    }
+}
+
+/**
+ * 添加文件到文件列表并显示
+ * @param {File[]} files 文件列表
+ */
+function addFiles(files) {
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        fileList.push(file);
+    }
+    updateFileList();
 }
 
 /**
@@ -223,11 +256,9 @@ function initDragDrop() {
         const dt = e.dataTransfer;
         const files = dt.files;
 
-        handleFiles(files);
-    }
-
-    function handleFiles(files) {
+        addFiles(files);
         console.log(files);
+
     }
 
     const dropbox = document.getElementById("dropbox");
@@ -236,9 +267,45 @@ function initDragDrop() {
     dropbox.addEventListener("drop", drop, false);
 }
 
+/**
+ * 初始化上传检测文件大小
+ */
+function initUpload() {
+    // 初始化上传词缀选择框
+    const uploadPrefixSelectElement = document.getElementById('upload-prefix');
+    auto_prefix.concat(all_prefix).forEach(prefix => {
+        const option = document.createElement("option");
+        option.value = prefix;
+        option.textContent = prefix;
+        uploadPrefixSelectElement.appendChild(option);
+    });
+    // 清空列表按钮
+    const clearButtonElement = document.getElementById("clear-button");
+    clearButtonElement.addEventListener("click", () => {
+        fileList = [];
+        updateFileList();
+    });
+    uploadPrefixSelectElement.addEventListener("change", () => {
+        updateFileList();
+    });
+    // 上传多文件
+    const fileInputElement = document.getElementById("file-input");
+    fileInputElement.addEventListener("change", () => {
+        addFiles(fileInputElement.files);
+    });
+    // 上传目录
+    const directoryInput = document.getElementById("directory-input");
+    directoryInput.addEventListener("change", () => {
+        addFiles(directoryInput.files);
+    });
+    // 使用拖放来选择文件
+    initDragDrop();
+
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化转换工具
     initConversionTools();
-    // 使用拖放来选择文件
-    // initDragDrop();
+    // 初始化上传检测文件大小
+    initUpload();
 });
