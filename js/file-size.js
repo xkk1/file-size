@@ -211,7 +211,6 @@ function updateFileList() {
     uploadResultElement.innerHTML = "";
     for (let i = fileList.length - 1; i >= 0; i--) {
         const file = fileList[i];
-        console.log(file);
         const fileSpanElement = document.createElement("span");
         fileSpanElement.textContent = file.webkitRelativePath ? file.webkitRelativePath : file.name + " - " + byteToPrefix(file.size, uploadPrefixSelectElement.value);
         const fileElement = document.createElement("div");
@@ -294,13 +293,20 @@ function initUpload() {
         addFiles(fileInputElement.files);
     });
     // 上传目录
-    const directoryInput = document.getElementById("directory-input");
-    directoryInput.addEventListener("change", () => {
-        addFiles(directoryInput.files);
-    });
+    // 判断是否支持 webkitdirectory
+    if ('webkitdirectory' in fileInputElement) {
+        // 支持 webkitdirectory
+        const directoryInput = document.getElementById("directory-input");
+        directoryInput.addEventListener("change", () => {
+            addFiles(directoryInput.files);
+        });
+    } else {
+        // 不支持 webkitdirectory，删除 directory-upload
+        const directoryUploadElement = document.getElementById("directory-upload");
+        directoryUploadElement.parentNode.removeChild(directoryUploadElement);
+    }
     // 使用拖放来选择文件
     initDragDrop();
-
 }
 
 document.addEventListener('DOMContentLoaded', function() {
